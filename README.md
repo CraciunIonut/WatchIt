@@ -1,2 +1,2 @@
 # WatchIt
-Open source streaming service built to showcase an end to end flow covering the infrastructure, networking, deployment and application development. 
+This is an open-source home streaming service built to demonstrate an end-to-end workflow covering infrastructure, networking, deployment, and application development. The project showcases how to design and operate a lightweight, secure streaming platform using a Raspberry Pi NAS as on-premise storage, a Kubernetes (k3s) cluster deployed on AWS Lightsail for hosting the web app, and Tailscale for encrypted connectivity between environments. It highlights best practices in infrastructure-as-code provisioning, containerized deployment with Helm, and efficient media delivery using nginx and HTTP range requests.
