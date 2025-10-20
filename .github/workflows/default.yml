@@ -21,6 +21,8 @@ jobs:
     # Agent pool with specific image
     runs-on: ubuntu-latest
 
+    environment: ${{ inputs.Env }}
+
     # Steps
     steps:
       # Check out current repo. (Repo contained in $GITHUB_WORKSPACE)
@@ -28,4 +30,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Hello, ${{ inputs.Env }} 
+        run: echo Hello, ${{ vars.Env }} 
