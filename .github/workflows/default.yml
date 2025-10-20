@@ -1,14 +1,27 @@
-name: Test Pipeline
+name: Test Workflow
+
+run-name: Test pipeline on ${{ inputs.Env }}
 
 on:
   # Run the github action manually for the moment.
   workflow_dispatch:
+  # Parameters of the pipeline
+    inputs:
+      Env:
+        type: choice
+        description: 'Environment'
+        required: true
+        options:
+          - T1
+          - PRD
 
 jobs:
  #Job name 
   build:
     # Agent pool with specific image
     runs-on: ubuntu-latest
+
+    environment: ${{ inputs.Env }}
 
     # Steps
     steps:
@@ -17,10 +30,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+        run: echo Hello, ${{ vars.Env }} 
