@@ -1,0 +1,31 @@
+name: Terraform Deploy Infra
+
+run-name: Terraform Deploy Infra on ${{ inputs.Env }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      Env:
+        type: choice
+        description: 'Environment'
+        required: true
+        options:
+          - T1
+          - PRD
+
+jobs:
+  infra-deploy:
+    runs-on: ubuntu-24.04
+    environment: ${{ inputs.Env }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.12.0
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      
+      - name: Test Terraform cli 
+        run: terraform version
+        
