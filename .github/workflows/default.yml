@@ -6,10 +6,12 @@ on:
   # Parameters of the pipeline
     inputs:
       Env:
-        type: string
+        type: choice
         description: 'Environment'
         required: true
-        default: 'T1'
+        options:
+          - T1
+          - PRD
 
 jobs:
  #Job name 
