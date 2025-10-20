@@ -3,13 +3,13 @@ name: Test Pipeline
 on:
   # Run the github action manually for the moment.
   workflow_dispatch:
-
-inputs:
-  Env:
-    type: string
-    description: 'Environment'
-    required: true
-    default: 'T1'
+  # Parameters of the pipeline
+    inputs:
+      Env:
+        type: string
+        description: 'Environment'
+        required: true
+        default: 'T1'
 
 jobs:
  #Job name 
