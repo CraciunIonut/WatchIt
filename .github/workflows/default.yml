@@ -1,4 +1,6 @@
-name: Test pipeline on ${{ github.event.inputs.Env }}
+name: Test Workflow
+
+run-name: Test pipeline on ${{ inputs.Env }}
 
 on:
   # Run the github action manually for the moment.
@@ -26,4 +28,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Hello, ${{ github.event.inputs.Env }} 
+        run: echo Hello, ${{ inputs.Env }} 
