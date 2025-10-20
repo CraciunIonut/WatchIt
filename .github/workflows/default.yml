@@ -1,4 +1,4 @@
-name: Test Pipeline
+name: Test pipeline on ${{ github.event.inputs.Env }}
 
 on:
   # Run the github action manually for the moment.
