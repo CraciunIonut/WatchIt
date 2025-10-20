@@ -4,6 +4,12 @@ on:
   # Run the github action manually for the moment.
   workflow_dispatch:
 
+inputs:
+  Env:
+    description: 'Environment'
+    required: true
+    default: 'T1'
+
 jobs:
  #Job name 
   build:
