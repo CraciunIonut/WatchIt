@@ -30,8 +30,8 @@ jobs:
         with:
           sources: 'terraform/terraform.tfvars'
           variables: '[${{ toJson(secrets)}}]'
-          token-prefix: '#{{'
-          token-suffix: '}}#'
+          token-prefix: '#{'
+          token-suffix: '}#'
 
       - name: Display terraform.tfvars
         run: cat terraform/terraform.tfvars
