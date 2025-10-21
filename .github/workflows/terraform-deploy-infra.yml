@@ -41,4 +41,4 @@ jobs:
 
       - name: Terraform Plan Validation 
         working-directory: ./terraform
-        run: terraform plan
+        run: terraform plan -input=false
