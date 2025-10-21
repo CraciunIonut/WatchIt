@@ -38,7 +38,7 @@ jobs:
       
       - name: Debug
         working-directory: ./terraform
-        run: ls -latr 
+        run: ls -latr ..
 
 
       
