@@ -36,5 +36,10 @@ jobs:
         working-directory: ./terraform
         run: terraform init 
 
-      - name: Print terraform lock
-        run: cat ./terraform/.terraform.lock.hcl
+      - name: Terraform Plan Validation 
+        working-directory: ./terraform
+        run: terraform plan -out=tfplan
+      
+      - name: Terraform Plan Show
+        working-directory: ./terraform
+        run: terraform show -json tfplan
