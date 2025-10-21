@@ -42,7 +42,7 @@ jobs:
 
       - name: Terraform Login to Private Registry
         working-directory: ./terraform
-        run: terraform login -token=${{ secrets.TF_API_TOKEN }}
+        run: terraform login 
 
       
 
