@@ -38,11 +38,8 @@ jobs:
       
       - name: Debug
         working-directory: ./terraform
-        run: ls -latr .terraform/providers
+        run: ls -latr 
 
-      - name: Terraform Login to Private Registry
-        working-directory: ./terraform
-        run: terraform login 
 
       
 
