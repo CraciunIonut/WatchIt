@@ -1,1 +1,1 @@
-test123 = #{{ secrets.TEST_SECRET }}#
+test123 = "#{{ vars.TEST_SECRET }}#"
