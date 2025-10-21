@@ -3,6 +3,9 @@ name: Terraform Deploy Infra
 run-name: Terraform Deploy Infra on ${{ inputs.Env }}
 
 on:
+  push:
+    branches:
+      - test-terraform
   workflow_dispatch:
     inputs:
       Env:
