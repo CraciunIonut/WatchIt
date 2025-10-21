@@ -40,6 +40,10 @@ jobs:
         working-directory: ./terraform
         run: ls -latr .terraform/providers
 
+      - name: Terraform Login to Private Registry
+        working-directory: ./terraform
+        run: terraform login -token=${{ secrets.TF_API_TOKEN }}
+
       
 
       # - name: Terraform Plan Validation 
