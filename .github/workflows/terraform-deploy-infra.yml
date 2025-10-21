@@ -26,7 +26,7 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: <1.13.4
+          terraform_version: 1.13.4
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
       
       - name: Test Terraform cli 
@@ -38,7 +38,7 @@ jobs:
       
       - name: Debug
         working-directory: ./terraform
-        run: ls -latr .terraform/
+        run: ls -latr .terraform/providers
 
       
 
