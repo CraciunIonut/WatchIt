@@ -38,7 +38,9 @@ jobs:
       
       - name: Debug
         working-directory: ./terraform
-        run: ls -latr
+        run: ls -latr .terraform/
+
+      
 
       # - name: Terraform Plan Validation 
       #   working-directory: ./terraform
