@@ -15,7 +15,7 @@ on:
         options:
           - T1
           - PRD
-
+ 
 jobs:
   infra-deploy:
     runs-on: ubuntu-24.04
@@ -38,4 +38,4 @@ jobs:
 
       - name: Terraform Plan Validation 
         working-directory: ./terraform
-        run: terraform plan 
+        run: terraform plan -input=false
