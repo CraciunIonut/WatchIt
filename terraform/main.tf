@@ -11,7 +11,7 @@ resource "aws_lightsail_instance" "watchit-test" {
 
 variable "AWS_ACCESS_KEY_ID" {
     type = string
-    sensitive = false
+    sensitive = true
 }
 
 variable "AWS_SECRET_ACCESS_KEY" {
