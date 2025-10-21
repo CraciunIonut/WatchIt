@@ -38,8 +38,4 @@ jobs:
 
       - name: Terraform Plan Validation 
         working-directory: ./terraform
-        run: terraform plan -out=tfplan
-      
-      - name: Terraform Plan Show
-        working-directory: ./terraform
-        run: terraform show -json tfplan
+        run: terraform plan 
