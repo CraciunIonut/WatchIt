@@ -35,18 +35,11 @@ jobs:
       - name: Terraform Init
         working-directory: ./terraform
         run: terraform init         
-      
-      - name: Debug
+
+      - name: Terraform Plan Validation 
         working-directory: ./terraform
-        run: ls -latr ..
-
-
+        run: terraform plan -out=tfplan
       
-
-      # - name: Terraform Plan Validation 
-      #   working-directory: ./terraform
-      #   run: terraform plan -out=tfplan
-      
-      # - name: Terraform Plan Show
-      #   working-directory: ./terraform
-      #   run: terraform show -json tfplan
+      - name: Terraform Plan Show
+        working-directory: ./terraform
+        run: terraform show -json tfplan
