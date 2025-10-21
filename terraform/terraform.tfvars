@@ -1,1 +1,1 @@
-test123 = #{{ test_secret }}#
+test123 = #{{ TEST_SECRET }}#
