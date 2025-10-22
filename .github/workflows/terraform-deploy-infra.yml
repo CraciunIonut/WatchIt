@@ -44,6 +44,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.3'
+
       - uses: qetza/replacetokens-action@v1
         with:
           sources: 'terraform/terraform.tfvars'
@@ -76,5 +80,17 @@ jobs:
       - name: Check Terraform Plan for changes
         working-directory: ./terraform
         id: check-plan
-        run: python 
+        run: |
+          python ../utils/check_plan.py plan.json 2> error.log 1> changes.log
           
+          cat changes.log
+
+          # if [ -s error.log ]; then
+          #   echo "Error while checking plan. Please check number of arguments."
+          #   cat error.log
+          #   exit 1
+          # else
+          #   flag=$(head -n 1 changes.log)
+          # fi  
+          
+          # echo "plan_flag=$flag" >> $GITHUB_OUTPUT
