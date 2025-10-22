@@ -2,9 +2,6 @@ name: Terraform Deploy Infra
 
 run-name: Terraform Deploy Infra on ${{ inputs.Env }}
 
-#TODO: 
-#
-
 on:
   workflow_dispatch:
     inputs:
@@ -81,11 +78,8 @@ jobs:
         working-directory: ./terraform
         id: check-plan
         run: |
-          python ../../utils/check_plan.py plan.json
-          
-          cat error.log
-
-          cat changes.log
+          #python ../../utils/check_plan.py plan.json
+          ls -latr ../../
 
           # if [ -s error.log ]; then
           #   echo "Error while checking plan. Please check number of arguments."
