@@ -81,7 +81,7 @@ jobs:
         working-directory: ./terraform
         id: check-plan
         run: |
-          python ../utils/check_plan.py plan.json 2> error.log 1> changes.log
+          python ../utils/check_plan.py plan.json
           
           cat error.log
 
