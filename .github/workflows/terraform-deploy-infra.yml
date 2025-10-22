@@ -25,12 +25,12 @@ jobs:
       - name: Set Environment Variable if it is not provided
         id: set-env
         run: |
-          if [ -z "${{ inputs.Env }} ""]; then
+          if [ -z "${{ inputs.Env }}"]; then
             echo "env=PRD" >> $GITHUB_OUTPUT
           else
             echo "env=${{ inputs.Env }}" >> $GITHUB_OUTPUT
           fi
-          
+
   infra-deploy:
     runs-on: ubuntu-24.04
     environment: ${{ needs.configure-environment.outputs.env }}
