@@ -52,4 +52,4 @@ jobs:
 
       - name: Check Terraform Plan 
         working-directory: ./terraform
-        run: cat tfplan
+        run: terraform show -json tfplan | jq .
