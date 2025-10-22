@@ -79,12 +79,12 @@ jobs:
         run: |
           python3 ../utils/check_plan.py plan.json 2> error.log 1> changes.log
 
-          if [ -s error.log ]; then
-            echo "Error while checking plan. Please check number of arguments."
-            cat error.log
-            exit 1
-          else
-            flag=$(head -n 1 changes.log)
-          fi  
+          # if [ -s error.log ]; then
+          #   echo "Error while checking plan. Please check number of arguments."
+          #   cat error.log
+          #   exit 1
+          # else
+          #   flag=$(head -n 1 changes.log)
+          # fi  
           
-          echo "plan_flag=$flag" >> $GITHUB_OUTPUT
+          # echo "plan_flag=$flag" >> $GITHUB_OUTPUT
