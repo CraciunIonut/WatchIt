@@ -83,6 +83,8 @@ jobs:
         run: |
           python ../utils/check_plan.py plan.json 2> error.log 1> changes.log
           
+          cat error.log
+
           cat changes.log
 
           # if [ -s error.log ]; then
