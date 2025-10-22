@@ -78,8 +78,10 @@ jobs:
         working-directory: ./terraform
         id: check-plan
         run: |
-          #python ../../utils/check_plan.py plan.json
-          ls -latr ../../
+          python ../utils/check-changes_plan.py plan.json 2> error.log 1> changes.log
+
+          cat changes.log
+          cat error.log
 
           # if [ -s error.log ]; then
           #   echo "Error while checking plan. Please check number of arguments."
