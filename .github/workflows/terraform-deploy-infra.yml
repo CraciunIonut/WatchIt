@@ -17,9 +17,24 @@ on:
           - PRD
  
 jobs:
+  configure-environment:
+    runs-on: ubuntu-24.04
+    outputs:
+      env: ${{ steps.set-env.outputs.env }}
+    steps:
+      - name: Set Environment Variable if it is not provided
+        id: set-env
+        run: |
+          if [ -z "${{ inputs.Env }} ""]; then
+            echo "env=PRD" >> $GITHUB_OUTPUT
+          else
+            echo "env=${{ inputs.Env }}" >> $GITHUB_OUTPUT
+          fi
+          
   infra-deploy:
     runs-on: ubuntu-24.04
-    environment: ${{ inputs.Env }}
+    environment: ${{ needs.configure-environment.outputs.env }}
+    needs: configure-environment
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -48,9 +63,9 @@ jobs:
 
       - name: Terraform Plan Validation 
         working-directory: ./terraform
-        run: terraform plan -input=false -out=tfplan -detailed-exitcode
+        run: terraform plan -input=false -out=tfplan
 
       - name: Check Terraform Plan 
         working-directory: ./terraform
         if: github.ref == 'refs/heads/test-terraform'
-        run: terraform show -json tfplan | jq .
+        run: terraform show -json tfplan | jq . > plan.json
