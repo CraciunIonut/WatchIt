@@ -52,4 +52,5 @@ jobs:
 
       - name: Check Terraform Plan 
         working-directory: ./terraform
+        if: github.ref == 'refs/heads/test-terraform'
         run: terraform show -json tfplan | jq .
