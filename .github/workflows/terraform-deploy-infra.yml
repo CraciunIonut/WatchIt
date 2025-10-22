@@ -76,5 +76,5 @@ jobs:
       - name: Check Terraform Plan for changes
         working-directory: ./terraform
         id: check-plan
-        run: python3 
+        run: python 
           
