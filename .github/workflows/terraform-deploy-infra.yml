@@ -2,6 +2,11 @@ name: Terraform Deploy Infra
 
 run-name: Terraform Deploy Infra on ${{ inputs.Env }}
 
+#TODO: Fix issue with python script nr of arguments
+#TODO: Add task that creates a pull request when there are changes detected in the plan
+#TODO: Add task that applies the changes only when it is run from main branch
+
+
 on:
   workflow_dispatch:
     inputs:
@@ -78,7 +83,7 @@ jobs:
         working-directory: ./utils
         id: check-plan
         run: |
-          python check-changes-plan.py plan.json >2 error.log >1 changes.log
+          python3 ./check-changes-plan.py plan.json 2> error.log 1> check.log
 
           cat changes.log
           cat error.log

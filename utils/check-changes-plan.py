@@ -1,12 +1,11 @@
 import json
 import sys
 
-#TODO: resource_changes is a list of changes -> parse all of them and check the resource_changes.change.action for "no-op" 
-# if any action is different from "no-op" then it means that it has changes, return true else return false
 
 def main():
     if len(sys.argv) != 2:
-        sys.stderr.write("Error: Invalid number of arguments")
+        sys.stderr.write("Error: Invalid number of arguments {0}\n".format(len(sys.argv)))
+        sys.stderr.write("Arguments: {0}".format(sys.argv))
         sys.exit(1)
 
     file_path = sys.argv[1]
