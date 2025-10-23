@@ -2,11 +2,6 @@ name: Terraform Deploy Infra
 
 run-name: Terraform Deploy Infra on ${{ inputs.Env }}
 
-#TODO: Fix issue with python script nr of arguments
-#TODO: Add task that creates a pull request when there are changes detected in the plan
-#TODO: Add task that applies the changes only when it is run from main branch
-
-
 on:
   workflow_dispatch:
     inputs:
@@ -100,7 +95,7 @@ jobs:
         if: steps.check-plan.outputs.plan_flag == 'True' && github.ref != 'refs/heads/main'
         uses: peter-evans/create-pull-request@v7
         with:
-          branch: github.ref_name
+          branch: ${{ github.ref_name }}
           title: 'Terraform Changes'
           commit-message: 'Detected changes in the Terraform Plan'
           body: |
