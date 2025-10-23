@@ -49,64 +49,71 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12.3'
-
-      - uses: qetza/replacetokens-action@v1
-        with:
-          sources: 'terraform/terraform.tfvars'
-          variables: '[${{ toJson(secrets)}}]'
-          token-prefix: '#{'
-          token-suffix: '}#'
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.13.4
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
       
-      - name: Test Terraform cli 
-        run: terraform version
-
-      - name: Terraform Init
-        working-directory: ./terraform
-        run: terraform init         
-
-      - name: Terraform Plan Validation 
-        working-directory: ./terraform
-        run: terraform plan -input=false -out=tfplan
-
-      - name: Check Terraform Plan 
-        working-directory: ./terraform
-        if: github.ref == 'refs/heads/test-terraform'
-        run: terraform show -json tfplan | jq . > ../utils/plan.json
-
-      - name: Check Terraform Plan for changes
-        working-directory: ./utils
-        id: check-plan
+      - name: Create tfvars file
         run: |
-          python3 ./check-changes-plan.py plan.json 2> error.log 1> changes.log
+          touch terraform/terraform.tfvars
+          echo 'AWS_ACCESS_KEY_ID = "#{ AWS_ACCESS_KEY_ID }#"' >> terraform/terraform.tfvars
+          echo 'AWS_SECRET_ACCESS_KEY = "#{ AWS_SECRET_ACCESS_KEY }#"' >> terraform/terraform.tfvars
+          cat terraform/terraform.tfvars
 
-          if [ -s error.log ]; then
-            echo "Error while checking plan. Please check number of arguments."
-            cat error.log
-            exit 1
-          else
-            flag=$(head -n 1 changes.log)
-          fi  
-          
-          echo "plan_flag=$flag" >> $GITHUB_OUTPUT
-          echo "plans=$(cat changes.log)" >> $GITHUB_OUTPUT
+      # - uses: qetza/replacetokens-action@v1
+      #   with:
+      #     sources: 'terraform/terraform.tfvars'
+      #     variables: '[${{ toJson(secrets)}}]'
+      #     token-prefix: '#{'
+      #     token-suffix: '}#'
 
-      - name: Create PR for changes
-        if: steps.check-plan.outputs.plan_flag == 'True' && github.ref != 'refs/heads/main'
-        uses: peter-evans/create-pull-request@v7
-        with:
-          title: 'Terraform Changes'
-          commit-message: 'Detected changes in the Terraform Plan'
-          body: |
-            - Automated PR to review changes detected in the Terraform plan.
-            - Changes detected: ${{ steps.check-plan.outputs.plans }}
+      # - name: Set up Terraform
+      #   uses: hashicorp/setup-terraform@v3
+      #   with:
+      #     terraform_version: 1.13.4
+      #     cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
       
-      - name: Apply Terraform Changes
-        working-directory: ./terraform
-        if: steps.check-plan.outputs.plan_flag == 'True' && github.ref == 'refs/heads/main'
-        run: terraform apply -input=false -auto-approve tfplan
+      # - name: Test Terraform cli 
+      #   run: terraform version
+
+      # - name: Terraform Init
+      #   working-directory: ./terraform
+      #   run: terraform init         
+
+      # - name: Terraform Plan Validation 
+      #   working-directory: ./terraform
+      #   run: terraform plan -input=false -out=tfplan
+
+      # - name: Check Terraform Plan 
+      #   working-directory: ./terraform
+      #   if: github.ref == 'refs/heads/test-terraform'
+      #   run: terraform show -json tfplan | jq . > ../utils/plan.json
+
+      # - name: Check Terraform Plan for changes
+      #   working-directory: ./utils
+      #   id: check-plan
+      #   run: |
+      #     python3 ./check-changes-plan.py plan.json 2> error.log 1> changes.log
+
+      #     if [ -s error.log ]; then
+      #       echo "Error while checking plan. Please check number of arguments."
+      #       cat error.log
+      #       exit 1
+      #     else
+      #       flag=$(head -n 1 changes.log)
+      #     fi  
+          
+      #     echo "plan_flag=$flag" >> $GITHUB_OUTPUT
+      #     echo "plans=$(cat changes.log)" >> $GITHUB_OUTPUT
+
+      # - name: Create PR for changes
+      #   if: steps.check-plan.outputs.plan_flag == 'True' && github.ref != 'refs/heads/main'
+      #   uses: peter-evans/create-pull-request@v7
+      #   with:
+      #     title: 'Terraform Changes'
+      #     commit-message: 'Detected changes in the Terraform Plan'
+      #     body: |
+      #       - Automated PR to review changes detected in the Terraform plan.
+      #       - Changes detected: ${{ steps.check-plan.outputs.plans }}
+      
+      # - name: Apply Terraform Changes
+      #   working-directory: ./terraform
+      #   if: steps.check-plan.outputs.plan_flag == 'True' && github.ref == 'refs/heads/main'
+      #   run: terraform apply -input=false -auto-approve tfplan
