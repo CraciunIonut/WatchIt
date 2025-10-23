@@ -15,7 +15,12 @@ on:
   push:
     branches:
       - test-terraform
- 
+
+permissions:
+  contents: write
+  pull-requests: write
+
+
 jobs:
   configure-environment:
     runs-on: ubuntu-24.04
@@ -95,7 +100,7 @@ jobs:
         if: steps.check-plan.outputs.plan_flag == 'True' && github.ref != 'refs/heads/main'
         uses: peter-evans/create-pull-request@v7
         with:
-          branch: 'refs/heads/main'
+          branch: main
           title: 'Terraform Changes'
           commit-message: 'Detected changes in the Terraform Plan'
           body: |

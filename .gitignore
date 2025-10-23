@@ -8,7 +8,7 @@ db.sqlite3-journal
 media
 utils/*.json
 .vscode/
-**/.terraform/*
+**/.terraform*/*
 *.tfstate
 *.tfstate.*
 crash.log
@@ -20,3 +20,5 @@ override.tf.json
 .terraformrc
 terraform.rc
 **/*tfplan
+*/terraform.tfvars
+*.tfvars.json
