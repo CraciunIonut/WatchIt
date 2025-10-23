@@ -83,7 +83,7 @@ jobs:
         working-directory: ./utils
         id: check-plan
         run: |
-          python3 ./check-changes-plan.py plan.json 2> error.log 1> check.log
+          python3 ./check-changes-plan.py plan.json 2> error.log 1> changes.log
 
           cat changes.log
           cat error.log
