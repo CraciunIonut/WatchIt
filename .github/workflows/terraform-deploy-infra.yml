@@ -85,15 +85,29 @@ jobs:
         run: |
           python3 ./check-changes-plan.py plan.json 2> error.log 1> changes.log
 
-          cat changes.log
-          cat error.log
-
-          # if [ -s error.log ]; then
-          #   echo "Error while checking plan. Please check number of arguments."
-          #   cat error.log
-          #   exit 1
-          # else
-          #   flag=$(head -n 1 changes.log)
-          # fi  
+          if [ -s error.log ]; then
+            echo "Error while checking plan. Please check number of arguments."
+            cat error.log
+            exit 1
+          else
+            flag=$(head -n 1 changes.log)
+          fi  
           
-          # echo "plan_flag=$flag" >> $GITHUB_OUTPUT
+          echo "plan_flag=$flag" >> $GITHUB_OUTPUT
+          echo "plans=$(cat changes.log)" >> $GITHUB_OUTPUT
+
+      - name: Create PR for changes
+        if: steps.check-plan.outputs.plan_flag == 'True' && github.ref != 'refs/heads/main'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: github.ref_name
+          title: 'Terraform Changes'
+          commit-message: 'Detected changes in the Terraform Plan'
+          body: |
+            - Automated PR to review changes detected in the Terraform plan.
+            - Changes detected: ${{ steps.check-plan.outputs.plans }}
+      
+      - name: Apply Terraform Changes
+        working-directory: ./terraform
+        if: steps.check-plan.outputs.plan_flag == 'True' && github.ref == 'refs/heads/main'
+        run: terraform apply -input=false -auto-approve tfplan
