@@ -101,17 +101,15 @@ jobs:
           fi  
           
           echo "plan_flag=$flag" >> $GITHUB_OUTPUT
-          echo "plans=$(cat changes.log)" >> $GITHUB_OUTPUT
+          echo "plans=$(cat plan.json)" >> $GITHUB_OUTPUT
 
       - name: Create PR for changes
         if: steps.check-plan.outputs.plan_flag == 'True' && github.ref != 'refs/heads/main'
-        uses: peter-evans/create-pull-request@v7
-        with:
-          title: 'Terraform Changes'
-          commit-message: 'Detected changes in the Terraform Plan'
-          body: |
-            - Automated PR to review changes detected in the Terraform plan.
-            - Changes detected: ${{ steps.check-plan.outputs.plans }}
+        run: |
+          gh pr create -B main -H ${{ github.ref_name }} -t "Terraform Changes Detected" -b "Terraform plan has detected changes in the infrastructure. \n These are the changes: ${{ steps.check-plan.outputs.plans }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       
       
       - name: Apply Terraform Changes
         working-directory: ./terraform
