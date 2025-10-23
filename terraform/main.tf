@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_lightsail_instance" "watchit-blue" {
     name = "watchit-blue"
-    availability_zone = "eu-central-1"
+    availability_zone = "eu-central-1a"
     blueprint_id = "amazon_linux_2023"
     bundle_id = "small_3_0"
 }
