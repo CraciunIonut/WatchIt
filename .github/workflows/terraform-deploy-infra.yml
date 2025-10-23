@@ -1,0 +1,116 @@
+name: Terraform Deploy Infra
+
+run-name: Terraform Deploy Infra on ${{ inputs.Env }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      Env:
+        type: choice
+        description: 'Environment'
+        required: true
+        options:
+          - T1
+          - PRD
+  push:
+    branches:
+      - test-terraform
+
+permissions:
+  contents: write
+  pull-requests: write
+
+
+jobs:
+  configure-environment:
+    runs-on: ubuntu-24.04
+    outputs:
+      env: ${{ steps.set-env.outputs.env }}
+    steps:
+      - name: Set Environment Variable if it is not provided
+        id: set-env
+        run: |
+          if [ -z "${{ inputs.Env }}"]; then
+            echo "env=T1" >> $GITHUB_OUTPUT
+          else
+            echo "env=${{ inputs.Env }}" >> $GITHUB_OUTPUT
+          fi
+
+  infra-deploy:
+    runs-on: ubuntu-24.04
+    environment: ${{ needs.configure-environment.outputs.env }}
+    needs: configure-environment
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12.3'
+      
+      - name: Create tfvars file
+        run: |
+          touch terraform/terraform.tfvars
+          echo 'AWS_ACCESS_KEY_ID = "#{ AWS_ACCESS_KEY_ID }#"' >> terraform/terraform.tfvars
+          echo 'AWS_SECRET_ACCESS_KEY = "#{ AWS_SECRET_ACCESS_KEY }#"' >> terraform/terraform.tfvars
+          cat terraform/terraform.tfvars
+
+      - uses: qetza/replacetokens-action@v1
+        with:
+          sources: 'terraform/terraform.tfvars'
+          variables: '[${{ toJson(secrets)}}]'
+          token-prefix: '#{'
+          token-suffix: '}#'
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.13.4
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      
+      - name: Test Terraform cli 
+        run: terraform version
+
+      - name: Terraform Init
+        working-directory: ./terraform
+        run: terraform init         
+
+      - name: Terraform Plan Validation 
+        working-directory: ./terraform
+        run: terraform plan -input=false -out=tfplan
+
+      - name: Check Terraform Plan 
+        working-directory: ./terraform
+        if: github.ref == 'refs/heads/test-terraform'
+        run: terraform show -json tfplan | jq . > ../utils/plan.json
+
+      - name: Check Terraform Plan for changes
+        working-directory: ./utils
+        id: check-plan
+        run: |
+          python3 ./check-changes-plan.py plan.json 2> error.log 1> changes.log
+
+          if [ -s error.log ]; then
+            echo "Error while checking plan. Please check number of arguments."
+            cat error.log
+            exit 1
+          else
+            flag=$(head -n 1 changes.log)
+          fi  
+          
+          echo "plan_flag=$flag" >> $GITHUB_OUTPUT
+
+      - name: Create PR for changes
+        if: steps.check-plan.outputs.plan_flag == 'True' && github.ref != 'refs/heads/main'
+        run: |
+          gh pr create -B main -H ${{ github.ref_name }} -t "Terraform Changes Detected" -b "Terraform plan has detected changes in the infrastructure."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       
+      
+      - name: Apply Terraform Changes
+        working-directory: ./terraform
+        if: steps.check-plan.outputs.plan_flag == 'True' && github.ref == 'refs/heads/main'
+        run: terraform apply -input=false -auto-approve tfplan
