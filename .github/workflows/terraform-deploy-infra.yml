@@ -101,12 +101,11 @@ jobs:
           fi  
           
           echo "plan_flag=$flag" >> $GITHUB_OUTPUT
-          echo "plans=$(cat plan.json)" >> $GITHUB_OUTPUT
 
       - name: Create PR for changes
         if: steps.check-plan.outputs.plan_flag == 'True' && github.ref != 'refs/heads/main'
         run: |
-          gh pr create -B main -H ${{ github.ref_name }} -t "Terraform Changes Detected" -b "Terraform plan has detected changes in the infrastructure. \n These are the changes: ${{ steps.check-plan.outputs.plans }}"
+          gh pr create -B main -H ${{ github.ref_name }} -t "Terraform Changes Detected" -b "Terraform plan has detected changes in the infrastructure."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
        
