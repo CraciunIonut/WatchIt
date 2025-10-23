@@ -100,7 +100,6 @@ jobs:
         if: steps.check-plan.outputs.plan_flag == 'True' && github.ref != 'refs/heads/main'
         uses: peter-evans/create-pull-request@v7
         with:
-          branch: main
           title: 'Terraform Changes'
           commit-message: 'Detected changes in the Terraform Plan'
           body: |
