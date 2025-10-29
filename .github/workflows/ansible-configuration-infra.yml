@@ -30,10 +30,11 @@ jobs:
           - uses: actions/checkout@v4
 
           - name: Set up ssh key
+            working-directory: ./ansible
             run: |
-                mkdir -p /ansible/inventory/envs/${{ inputs.Env }}/keys
-                echo "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" > /ansible/inventory/envs/${{ inputs.Env }}/keys/ansible_key
-                chmod 600 /ansible/inventory/envs/${{ inputs.Env }}/keys/ansible_key
+                mkdir -p ./inventory/envs/${{ inputs.Env }}/keys
+                echo "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" > ./inventory/envs/${{ inputs.Env }}/keys/ansible_key
+                chmod 600 ./inventory/envs/${{ inputs.Env }}/keys/ansible_key
 
 
           - uses: qetza/replacetokens-action@v1
