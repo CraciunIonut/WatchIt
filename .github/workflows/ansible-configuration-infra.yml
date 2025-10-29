@@ -32,7 +32,7 @@ jobs:
           - name: Set up ssh key
             run: |
                 mkdir -p ~/.ssh/
-                printf '%s\n' "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/ansible_key
+                echo ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }} | base64 --decode > ~/.ssh/ansible_key
                 chmod 600 ~/.ssh/ansible_key
                 chmod 700 ~/.ssh
                 echo "=====Validate the key====="
