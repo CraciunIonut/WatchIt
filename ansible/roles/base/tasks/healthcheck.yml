@@ -1,0 +1,12 @@
+---
+- task: Check if nginx is running
+  ansible.builtin.shell: systemctl status nginx
+  register: nginx_status
+  ignore_errors: yes
+
+- name: Restart nginx if it is not running
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+  when: nginx_status.rc != 0
+
