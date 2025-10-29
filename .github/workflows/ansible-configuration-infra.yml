@@ -47,9 +47,10 @@ jobs:
           - name: Set up Ansible
             uses: dawidd6/action-ansible-playbook@v5
             with:
-              playbook: 'ansible/playbook.yml'
+              playbook: 'infra.yml'
               directory: 'ansible'
-              configuration: 'ansible/ansible.cfg'
+              inventory: 'inventory/envs/${{ inputs.Env }}/hosts.yml'
+              configuration: 'ansible.cfg'
 
         
           
