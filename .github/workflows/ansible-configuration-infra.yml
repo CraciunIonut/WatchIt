@@ -35,9 +35,6 @@ jobs:
                 echo ${{ secrets.AWS_SSH_KEY }} | base64 --decode > ~/.ssh/ansible_key
                 chmod 600 ~/.ssh/ansible_key
                 chmod 700 ~/.ssh
-                echo "=====Validate the key====="
-                ssh-keygen -y -f ~/.ssh/ansible_key
-                echo "=========================="
 
 
           - uses: qetza/replacetokens-action@v1
