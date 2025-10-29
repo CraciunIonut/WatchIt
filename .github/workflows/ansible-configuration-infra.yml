@@ -1,4 +1,4 @@
-name: Test Workflow
+name: Ansible Config
 
 run-name: Ansible Config Pipeline on ${{ inputs.Env }}
 
