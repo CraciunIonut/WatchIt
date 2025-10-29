@@ -44,6 +44,12 @@ jobs:
               token-prefix: '#{'
               token-suffix: '}#'
 
+          - name: Check inventory and playbook
+            working-directory: ./ansible
+            run: |
+              cat infra.yml
+              cat inventory/envs/T1/hosts.yml
+
           # - name: Set up Ansible
           #   uses: dawidd6/action-ansible-playbook@v5
           #   with:
@@ -52,10 +58,10 @@ jobs:
           #     inventory: 'inventory/envs/${{ inputs.Env }}/hosts.yml'
           #     configuration: 'ansible.cfg'
 
-          - name: Ansible Playbook
-            working-directory: ./ansible
-            run: |
-                ansible-playbook -i inventory/envs/${{ inputs.Env }}/hosts.yml infra.yml
+          # - name: Ansible Playbook
+          #   working-directory: ./ansible
+          #   run: |
+          #       ansible-playbook -i inventory/envs/${{ inputs.Env }}/hosts.yml infra.yml
 
         
           

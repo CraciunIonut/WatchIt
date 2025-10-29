@@ -1,5 +1,5 @@
 ---
-- hosts: "#{ inputs.AvailabilityZone }#"
+- hosts: "#{ AvailabilityZone }#"
   gather_facts: yes
 
   tasks:
