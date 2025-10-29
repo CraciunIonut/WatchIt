@@ -44,9 +44,9 @@ jobs:
               token-prefix: '#{'
               token-suffix: '}#'
           
-          - name: test ssh connection
-            run: |
-              ssh -i ~/.ssh/ansible_key -o StrictHostKeyChecking=no -vvv ec2-user@35.159.119.82
+          # - name: test ssh connection
+          #   run: |
+          #     ssh -i ~/.ssh/ansible_key -o StrictHostKeyChecking=no -vvv ec2-user@35.159.119.82
 
           # - name: Set up Ansible
           #   uses: dawidd6/action-ansible-playbook@v5
@@ -56,10 +56,10 @@ jobs:
           #     inventory: 'inventory/envs/${{ inputs.Env }}/hosts.yml'
           #     configuration: 'ansible.cfg'
 
-          # - name: Ansible Playbook
-          #   working-directory: ./ansible
-          #   run: |
-          #       ansible-playbook -vvv -i inventory/envs/${{ inputs.Env }}/hosts.yml --private-key ~/.ssh/ansible_key infra.yml
+          - name: Ansible Playbook
+            working-directory: ./ansible
+            run: |
+                ansible-playbook -vvv -i inventory/envs/${{ inputs.Env }}/hosts.yml --private-key ~/.ssh/ansible_key infra.yml
 
         
           
