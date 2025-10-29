@@ -14,7 +14,7 @@
 
 - name: Ensure netstat is installed
   package:
-    name: "{{ net-tools }}"
+    name: "{{ net_tools }}"
     state: present
     use: dnf
   become: yes
