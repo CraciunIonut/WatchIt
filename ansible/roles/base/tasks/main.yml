@@ -1,0 +1,6 @@
+---
+- name: Update packages
+  include_tasks: update-packages.yml
+
+- name: Healthcheck
+  include_tasks: healthcheck.yml

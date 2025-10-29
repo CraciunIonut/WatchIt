@@ -1,0 +1,54 @@
+name: Ansible Config
+
+run-name: Ansible Config Pipeline on ${{ inputs.Env }}
+
+on:
+  # Run the github action manually for the moment.
+  workflow_dispatch:
+  # Parameters of the pipeline
+    inputs:
+      Env:
+        type: choice
+        description: 'Environment'
+        required: true
+        options:
+          - T1
+          - PRD
+      AvailabilityZone:
+        type: choice
+        description: 'Availability Zone'
+        required: true
+        options:
+            - blue
+            - red
+
+jobs:
+    ansible:
+        runs-on: ubuntu-latest
+        environment: ${{ inputs.Env }}
+        steps:
+          - uses: actions/checkout@v4
+
+          - name: Set up ssh key
+            run: |
+                mkdir -p /ansible/inventory/envs/${{ inputs.Env }}/keys
+                echo "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" > /ansible/inventory/envs/${{ inputs.Env }}/keys/ansible_key
+                chmod 600 /ansible/inventory/envs/${{ inputs.Env }}/keys/ansible_key
+
+
+          - uses: qetza/replacetokens-action@v1
+            with:
+              sources: 'ansible/inventory/envs/${{ inputs.Env }}/hosts.yml; ansible/infra.yml'
+              variables: '[${{ toJson(secrets)}}], [${{ toJson(inputs)}}]'
+              token-prefix: '#{'
+              token-suffix: '}#'
+
+          - name: Set up Ansible
+            uses: dawidd6/action-ansible-playbook@v5
+            with:
+              playbook: 'ansible/playbook.yml'
+              directory: 'ansible'
+              configuration: 'ansible/ansible.cfg'
+
+        
+          

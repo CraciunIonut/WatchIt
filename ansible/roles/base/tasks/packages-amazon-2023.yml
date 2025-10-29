@@ -1,0 +1,17 @@
+- name: Ensure python3 is installed
+  package:
+    name: "{{ python3 }}"
+    state: present
+    use: dnf
+
+- name: Ensure nginx is installed
+  package:
+    name: "{{ nginx }}"
+    state: present
+    use: dnf
+
+- name: Ensure netstat is installed
+  package:
+    name: "{{ net-tools }}"
+    state: present
+    use: dnf

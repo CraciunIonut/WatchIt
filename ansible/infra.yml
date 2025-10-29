@@ -1,0 +1,8 @@
+---
+- hosts: "#{ inputs.AvailabilityZone }#"
+  gather_facts: yes
+
+  tasks:
+    - name: Include Base Role
+      include_role:
+        name: base
