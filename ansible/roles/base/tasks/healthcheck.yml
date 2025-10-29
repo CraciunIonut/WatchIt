@@ -1,5 +1,5 @@
 ---
-- task: Check if nginx is running
+- name: Check if nginx is running
   ansible.builtin.shell: systemctl status nginx
   register: nginx_status
   ignore_errors: yes
