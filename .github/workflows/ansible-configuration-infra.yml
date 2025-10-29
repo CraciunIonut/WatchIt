@@ -35,7 +35,9 @@ jobs:
                 echo "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" > ~/.ssh/ansible_key
                 chmod 600 ~/.ssh/ansible_key
                 chmod 700 ~/.ssh
-                ls -latr ~/.ssh/
+                echo "=====Validate the key====="
+                ssh-keygen -y -f ~/.ssh/ansible_key > dev/null 2>&1 || (echo "Invalid SSH key format or passphrase-protected key" && exit 1)
+                echo "=========================="
 
 
           - uses: qetza/replacetokens-action@v1
@@ -56,7 +58,7 @@ jobs:
           - name: Ansible Playbook
             working-directory: ./ansible
             run: |
-                ansible-playbook -vvv -i inventory/envs/${{ inputs.Env }}/hosts.yml --private-key ~/.ssh/ansible_key infra.yml 
+                ansible-playbook -vvv -i inventory/envs/${{ inputs.Env }}/hosts.yml --private-key ~/.ssh/ansible_key infra.yml
 
         
           
