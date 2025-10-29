@@ -56,7 +56,7 @@ jobs:
           - name: Ansible Playbook
             working-directory: ./ansible
             run: |
-                ansible-playbook -vvv -i inventory/envs/${{ inputs.Env }}/hosts.yml infra.yml
+                ansible-playbook -vvv -i inventory/envs/${{ inputs.Env }}/hosts.yml --private-key ~/.ssh/ansible_key infra.yml 
 
         
           
