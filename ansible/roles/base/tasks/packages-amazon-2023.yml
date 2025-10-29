@@ -1,20 +1,20 @@
 ---
 - name: Ensure python3 is installed
-  package:
+  ansible.builtin.package:
     name: "{{ python3 }}"
     state: present
     use: dnf
   become: yes
 
 - name: Ensure nginx is installed
-  package:
+  ansible.builtin.package:
     name: "{{ nginx }}"
     state: present
     use: dnf
   become: yes
 
 - name: Ensure netstat is installed
-  package:
+  ansible.builtin.package:
     name: "{{ net_tools }}"
     state: present
     use: dnf
