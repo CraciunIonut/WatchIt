@@ -40,7 +40,7 @@ jobs:
           - uses: qetza/replacetokens-action@v1
             with:
               sources: 'ansible/inventory/envs/${{ inputs.Env }}/hosts.yml; ansible/infra.yml'
-              variables: '[${{ toJson(secrets)}}], [${{ toJson(inputs)}}]'
+              variables: '[${{ toJson(secrets)}}, ${{ toJson(inputs)}}]'
               token-prefix: '#{'
               token-suffix: '}#'
 
