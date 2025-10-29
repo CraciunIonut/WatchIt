@@ -33,7 +33,7 @@ jobs:
             run: |
                 echo "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" > ~/.ssh/ansible_key
                 chmod 600 ~/.ssh/ansible_key
-                ls -latr ~/.ssh/ansible_key
+                ls -latr ~/.ssh/
 
 
           - uses: qetza/replacetokens-action@v1
