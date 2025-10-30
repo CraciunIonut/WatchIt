@@ -18,7 +18,7 @@
     state: touch
     owner: root
     group: root
-    mode: 0440
+    mode: 0640
   become: yes
 
 - name: Check if ansible user has sudo privileges
@@ -33,6 +33,14 @@
     line: 'ansiblenpa ALL=(ALL) NOPASSWD:ALL'
     validate: /usr/sbin/visudo -cf %s
   when: user_sudo.stdout == "0"
+  become: yes
+
+- name: Change ownership of the file
+  ansible.builtin.file:
+    path: /etc/sudoers.d/90-ansiblenpa
+    owner: root
+    group: root
+    mode: 0440
   become: yes
 
 - name: Create the tailscale user 
