@@ -10,7 +10,7 @@
 
 - name: Install tailscale
   ansible.builtin.package:
-    name: {{ tailscale_package }}
+    name: "{{ tailscale_package }}"
     state: present
     use: dnf
   become: yes
