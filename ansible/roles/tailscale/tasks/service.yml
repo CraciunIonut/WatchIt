@@ -1,0 +1,11 @@
+---
+- name: Check if tailscaled is enabled
+  ansible.builtin.systemd_service:
+    name: tailscaled
+    enabled: true 
+    state: started
+  become: yes
+
+- name: Start tailscale
+  ansible.builtin.shell: tailscale up
+  become: yes

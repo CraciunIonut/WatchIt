@@ -1,3 +1,6 @@
 ---
 - name: Install tasks
   include_tasks: install.yml
+
+- name: Service tasks
+  include_tasks: service.yml

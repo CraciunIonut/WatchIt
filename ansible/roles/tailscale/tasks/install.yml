@@ -3,6 +3,14 @@
   ansible.builtin.shell: if [ -z "$(dnf repolist | grep tailscale)" ]; then echo "NOK"; else echo "OK"; fi
   register: tailscale_repo
 
-- name:
-  ansible.builtin.debug:
-    msg: "{{ tailscale_repo }}"
+- name: Add tailscale repo
+  ansible.builtin.shell: yum-config-manager --add-repo https://pkgs.tailscale.com/stable/amazon-linux/2023/tailscale.repo
+  when: tailscale_repo == "OK"
+  become: yes
+
+- name: Install tailscale
+  ansible.builtin.package:
+    name: {{ tailscale_package }}
+    state: present
+    use: dnf
+  become: yes
