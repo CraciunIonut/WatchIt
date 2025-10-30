@@ -5,4 +5,4 @@
 
 - name:
   ansible.builtin.debug:
-    msg: {{ tailscale_repo }}
+    msg: "{{ tailscale_repo }}"
