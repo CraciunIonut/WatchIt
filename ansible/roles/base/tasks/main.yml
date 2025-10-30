@@ -4,3 +4,9 @@
 
 - name: Healthcheck
   include_tasks: healthcheck.yml
+
+- name: Group definition
+  include_tasks: group.yml
+
+- name: User definition
+  include_tasks: user.yml

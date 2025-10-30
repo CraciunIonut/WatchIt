@@ -34,7 +34,6 @@ jobs:
                 chmod 600 ~/.ssh/ansible_key
                 chmod 700 ~/.ssh
 
-
           - uses: qetza/replacetokens-action@v1
             with:
               sources: 'ansible/inventory/envs/${{ inputs.Env }}/hosts.yml; ansible/infra.yml'
@@ -46,6 +45,3 @@ jobs:
             working-directory: ./ansible
             run: |
                 ansible-playbook -v -i inventory/envs/${{ inputs.Env }}/hosts.yml --private-key ~/.ssh/ansible_key infra.yml
-
-        
-          

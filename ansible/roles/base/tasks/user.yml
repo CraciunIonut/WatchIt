@@ -1,0 +1,44 @@
+---
+
+- name: Create the ansible user 
+  ansible.builtin.user:
+    name: "{{ ansible_user_name }}"
+    group: "{{ ansible_group_name }}"
+    shell: "{{ ansible_user_shell }}"
+    state: present
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_type: rsa
+    home: /home/{{ ansible_user_name }}
+  become: yes
+
+- name: Create ansible user sudoers file
+  ansible.builtin.file:
+    path: /etc/sudoers.d/90-ansiblenpa
+    state: touch
+    owner: root
+    group: root
+    mode: 0440
+  become: yes
+
+- name: Check if ansible user has sudo privileges
+  ansible.builtin.command: "grep -c 'ansiblenpa ALL=(ALL) NOPASSWD:ALL' /etc/sudoers.d/90-ansiblenpa"
+  register: user_sudo
+
+- name: Add ansible user sudo privileges
+  ansible.builtin.lineinfile:
+    path: /etc/sudoerd.d/90-ansiblenpa
+    line: 'ansiblenpa ALL=(ALL) NOPASSWD:ALL'
+    validate: /usr/sbin/visudo -cf %s
+  when: user_sudo.stdout == "0"
+  become: yes
+
+- name: Create the tailscale user 
+  ansible.builtin.user:
+    name: "{{ tailscale_user_name }}"
+    group: "{{ tailscale_group_name }}"
+    shell: "{{ tailscale_user_shell }}"
+    state: present
+    home: /home/{{ tailscale_user_name }}
+  become: yes
+

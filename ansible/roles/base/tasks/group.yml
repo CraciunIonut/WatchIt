@@ -1,0 +1,14 @@
+---
+- name: Create the ansible group if it doesn't exist
+  ansible.builtin.group:
+    name: "{{ ansible_group_name }}"
+    gid: 1001
+    state: present
+  become: yes
+
+- name: Create the tailscale group if it doesn't exist
+  ansible.builtin.group:
+    name: "{{ tailscale_group_name }}"
+    gid: 1002
+    state: present
+  become: yes
