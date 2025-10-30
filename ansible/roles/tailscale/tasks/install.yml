@@ -1,0 +1,8 @@
+---
+- name: Check if tailscale repo exists
+  ansible.builtin.shell: dnf repolist | grep tailscale
+  register: tailscale_repo
+
+- name:
+  ansible.builtin.debug:
+    msg: {{ tailscale_repo }}

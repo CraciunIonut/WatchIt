@@ -3,6 +3,10 @@
   gather_facts: yes
 
   tasks:
-    - name: Include Base Role
+    # - name: Include Base Role
+    #   include_role:
+    #     name: base
+
+    - name: Include Tailscale Role
       include_role:
-        name: base
+        name: tailscale

@@ -1,0 +1,3 @@
+---
+- name: Install tasks
+  include_tasks: install.yml
