@@ -25,6 +25,7 @@
   ansible.builtin.command: "grep -c 'ansiblenpa ALL=(ALL) NOPASSWD:ALL' /etc/sudoers.d/90-ansiblenpa"
   register: user_sudo
   become: yes
+  ignore_errors: yes
 
 - name: Add ansible user sudo privileges
   ansible.builtin.lineinfile:
