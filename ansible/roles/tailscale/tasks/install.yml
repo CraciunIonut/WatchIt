@@ -1,6 +1,6 @@
 ---
 - name: Check if tailscale repo exists
-  ansible.builtin.shell: dnf repolist | grep tailscale
+  ansible.builtin.shell: if [ -z "$(dnf repolist | grep tailscale)" ]; then echo "NOK"; else echo "OK"; fi
   register: tailscale_repo
 
 - name:
