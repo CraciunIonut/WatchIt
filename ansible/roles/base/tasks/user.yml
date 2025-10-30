@@ -5,9 +5,6 @@
     group: "{{ ansible_group_name }}"
     shell: "{{ ansible_user_shell }}"
     state: present
-    generate_ssh_key: yes
-    ssh_key_bits: 2048
-    ssh_key_type: rsa
     home: /home/{{ ansible_user_name }}
   become: yes
 
