@@ -1,0 +1,34 @@
+name: Helm Deploy 
+
+run-name: Helm Deploy on K3s Cluster
+
+on:
+    workflow_dispatch:
+        inputs:
+        Env:
+            type: choice
+            description: 'Environment'
+            required: true
+            options:
+            - T1
+            - PRD
+
+
+jobs:
+  deployment:
+    runs-on: 'ubuntu-latest'
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: 'Deploy'
+      uses: 'deliverybot/helm@v1'
+      with:
+        release: 'nginx'
+        track: canary
+        namespace: 'default'
+        chart: 'app'
+        token: '${{ github.token }}'
+        values: |
+          name: foobar
+      env:
+        KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}' 
