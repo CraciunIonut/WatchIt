@@ -29,11 +29,6 @@ jobs:
     - name: "Install helm"
       uses: azure/setup-helm@v4.3.0
 
-    - name: "Show structure"
-      run: |
-        pwd
-        ls -R ./helmcharts
-
     - name: "Deploy NGINX chart"
       run: |
         helm upgrade --install nginx ./helmcharts/nginx \
