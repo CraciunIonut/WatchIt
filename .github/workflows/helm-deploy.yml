@@ -3,15 +3,15 @@ name: Helm Deploy
 run-name: Helm Deploy on K3s Cluster
 
 on:
-    workflow_dispatch:
-        inputs:
-        Env:
-            type: choice
-            description: 'Environment'
-            required: true
-            options:
-            - T1
-            - PRD
+  workflow_dispatch:
+    inputs:
+      Env:
+        type: choice
+        description: 'Environment'
+        required: true
+        options:
+          - T1
+          - PRD
 
 
 jobs:
@@ -24,7 +24,6 @@ jobs:
       uses: 'deliverybot/helm@v1'
       with:
         release: 'nginx'
-        track: canary
         namespace: 'default'
         chart: 'app'
         token: '${{ github.token }}'
