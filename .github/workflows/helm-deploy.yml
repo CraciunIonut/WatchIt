@@ -23,8 +23,8 @@ jobs:
     - name: "Set kubeconfig"
       run: |
         mkdir -p ~/.kube
-        echo "${{ secrets.KUBECONFIG }}" > ~/.kube/k3s.yml
-        chmod 600 ~/.kube/k3s.yml
+        echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+        chmod 600 ~/.kube/config
       
     - name: "Install helm"
       uses: azure/setup-helm@v4.3.0
