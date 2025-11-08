@@ -5,10 +5,10 @@ metadata:
   labels:
     app: nginx
 spec:
-  type: {{ .Values.service.type }}
+  type: NodePort
   ports:
-    - port: {{ .Values.service.port }}
+    - port: 80
       targetPort: 80
-      nodePort: {{ .Values.service.nodePort }}
+      nodePort: 30080
   selector:
     app: nginx
