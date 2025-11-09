@@ -1,0 +1,15 @@
+
+kind: IngressRoute
+metadata:
+  name: nginx-IngressRoute
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`my-hostname`)
+      services:
+        - kind: Service
+          name: questdb
+          port: 30080
