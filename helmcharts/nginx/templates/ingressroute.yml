@@ -13,5 +13,5 @@ spec:
               service:
                 name: nginx
                 port: 
-                  number: 80
+                  number: 30080
                   
