@@ -11,7 +11,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: nginx
+                name: deploy-tests
                 port: 
                   number: 30080
                   
