@@ -13,5 +13,5 @@ spec:
               service:
                 name: deploy-tests
                 port: 
-                  number: 30080
+                  number: 80
                   
